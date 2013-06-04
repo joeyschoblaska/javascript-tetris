@@ -5,7 +5,6 @@
   <style>
     body      { font-family: Helvetica, sans-serif; background-color: #000; color: #FFF}
     #tetris   { margin: 1em auto; padding: 1em; background-color: #000; }
-    #stats    { display: inline-block; vertical-align: top; }
     #canvas   { display: inline-block; vertical-align: top; background-color: #FFF }
     #menu     { display: inline-block; vertical-align: top; position: relative; }
     #menu p   { margin: 0.5em 0; text-align: center; }
@@ -13,7 +12,6 @@
     #upcoming { display: block; margin: 0 auto; background-color: #FFF; }
     #score    { color: #FFF; font-weight: bold; vertical-align: middle; }
     #rows     { color: #FFF; font-weight: bold; vertical-align: middle; }
-    #stats    { position: absolute; bottom: 0em; right: 1em; }
     @media screen and (min-width:   0px) and (min-height:   0px)  { #tetris { font-size: 0.75em; width: 250px; } #menu { width: 100px; height: 200px; } #upcoming { width:  50px; height:  50px; } #canvas { width: 100px; height: 200px; } } /* 10px chunks */
     @media screen and (min-width: 400px) and (min-height: 400px)  { #tetris { font-size: 1.00em; width: 350px; } #menu { width: 150px; height: 300px; } #upcoming { width:  75px; height:  75px; } #canvas { width: 150px; height: 300px; } } /* 15px chunks */
     @media screen and (min-width: 500px) and (min-height: 500px)  { #tetris { font-size: 1.25em; width: 450px; } #menu { width: 200px; height: 400px; } #upcoming { width: 100px; height: 100px; } #canvas { width: 200px; height: 400px; } } /* 20px chunks */
@@ -38,7 +36,6 @@
     </canvas>
   </div>
 
-  <script src="stats.js"></script>
   <script>
 
     //-------------------------------------------------------------------------
@@ -70,7 +67,6 @@
 
     var KEY     = { ESC: 27, SPACE: 32, LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40 },
         DIR     = { UP: 0, RIGHT: 1, DOWN: 2, LEFT: 3, MIN: 0, MAX: 3 },
-        stats   = new Stats(),
         canvas  = get('canvas'),
         ctx     = canvas.getContext('2d'),
         ucanvas = get('upcoming'),
@@ -172,7 +168,6 @@
 
     function run() {
 
-      showStats(); // initialize FPS counter
       addEvents(); // attach keydown and resize events
 
       var last = now = timestamp();
@@ -180,7 +175,6 @@
         now = timestamp();
         update(Math.min(1, (now - last) / 1000.0)); // using requestAnimationFrame have to be able to handle large delta's caused when it 'hibernates' in a background or non-visible tab
         draw();
-        stats.update();
         last = now;
         requestAnimationFrame(frame, canvas);
       }
@@ -189,11 +183,6 @@
       reset();  // reset the per-game variables
       frame();  // start the first frame
 
-    };
-
-    function showStats() {
-      stats.domElement.id = 'stats';
-      get('menu').appendChild(stats.domElement);
     };
 
     function addEvents() {
