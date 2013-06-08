@@ -77,6 +77,7 @@
         nx         = 10, // width of tetris court (in blocks)
         ny         = 20, // height of tetris court (in blocks)
         nu         = 5,  // width/height of upcoming preview (in blocks)
+        contrast   = 10, // contrast seen by non-lazy eye
         leftColor  = "#00FCFF", // blue that can only be seen by the left eye
         rightColor = "#FFFC00"; // yellow that can only be seen by the right eye
 
@@ -382,7 +383,7 @@
         for(y = 0 ; y < ny ; y++) {
           for (x = 0 ; x < nx ; x++) {
             if (block = getBlock(x,y))
-              drawBlock(ctx, x, y, leftColor);
+              drawBlock(ctx, x, y, false);
           }
         }
         ctx.strokeRect(0, 0, nx*dx - 1, ny*dy - 1); // court boundary
@@ -420,11 +421,22 @@
 
     function drawPiece(ctx, type, x, y, dir) {
       eachblock(type, x, y, dir, function(x, y) {
-        drawBlock(ctx, x, y, rightColor);
+        drawBlock(ctx, x, y, true);
       });
     };
 
-    function drawBlock(ctx, x, y, color) {
+    function drawBlock(ctx, x, y, falling) {
+      if (falling) {
+        color = leftColor;
+      } else {
+        if (y == 19) {
+          // block is at the very bottom of game screen
+          color = mix(leftColor, rightColor, contrast);
+        } else {
+          color = mix('white', rightColor, contrast);
+        }
+      }
+
       ctx.fillStyle = color;
       ctx.strokeStyle = 'white';
       ctx.fillRect(x*dx, y*dy, dx, dy);
