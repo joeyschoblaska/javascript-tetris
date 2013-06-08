@@ -77,9 +77,8 @@
         nx         = 10, // width of tetris court (in blocks)
         ny         = 20, // height of tetris court (in blocks)
         nu         = 5,  // width/height of upcoming preview (in blocks)
-        leftColor  = "#FFFC00", // color that can only be seen by the left eye
-        rightColor = "#00FCFF", // color that can only be seen by the right eye
-        binColor   = "#80FC80"; // color that can be seen binocularly
+        leftColor  = "#00FCFF", // color that can only be seen by the left eye
+        rightColor = "#FFFC00", // color that can only be seen by the right eye
 
     //-------------------------------------------------------------------------
     // game variables (initialized during reset)
@@ -430,6 +429,16 @@
       ctx.strokeStyle = 'white';
       ctx.fillRect(x*dx, y*dy, dx, dy);
       ctx.strokeRect(x*dx, y*dy, dx, dy)
+    };
+
+    // weight = 0 to 100; 0 = 100% color A, 100 = 100% color B
+    function mix(colorA, colorB, weight) {
+      hslA = tinycolor(colorA).toHsl();
+      hslB = tinycolor(colorB).toHsl();
+      h = (hslA.h * (100 - weight) + hslB.h * weight) / 100;
+      s = (hslA.s * (100 - weight) + hslB.s * weight) / 100;
+      l = (hslA.l * (100 - weight) + hslB.l * weight) / 100;
+      return tinycolor({h: h, s: s, l: l}).toHex();
     };
 
     //-------------------------------------------------------------------------
