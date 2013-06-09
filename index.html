@@ -428,13 +428,13 @@
 
     function drawBlock(ctx, x, y, falling) {
       if (falling) {
-        color = leftColor;
+        color = rightColor;
       } else {
         if (y == 19) {
           // block is at the very bottom of game screen
-          color = mix(leftColor, rightColor, contrast() / 2);
+          color = mix(rightColor, leftColor, contrast() / 2);
         } else {
-          color = mix('white', rightColor, contrast());
+          color = mix('white', leftColor, contrast());
         }
       }
 
