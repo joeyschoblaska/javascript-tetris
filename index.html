@@ -448,10 +448,10 @@
     function mix(colorA, colorB, weight) {
       hslA = tinycolor(colorA).toHsl();
       hslB = tinycolor(colorB).toHsl();
-      h = (hslA.h * (100 - weight) + hslB.h * weight) / 100;
-      s = (hslA.s * (100 - weight) + hslB.s * weight) / 100;
-      l = (hslA.l * (100 - weight) + hslB.l * weight) / 100;
-      return tinycolor({h: h, s: s, l: l}).toHex();
+      hue = (hslA.h * (100 - weight) + hslB.h * weight) / 100;
+      sat = (hslA.s * (100 - weight) + hslB.s * weight) / 100;
+      light = (hslA.l * (100 - weight) + hslB.l * weight) / 100;
+      return tinycolor({h: hue, s: sat, l: light}).toHex();
     };
 
     function contrast() {
